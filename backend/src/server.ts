@@ -5,6 +5,11 @@ dotenv.config({ quiet: true });
 
 let app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use("/api/auth", require("./routes/auth.route"));
+
 app.get("/health", (req, res) => {
   res.status(200).send("Server is healthy");
 });
