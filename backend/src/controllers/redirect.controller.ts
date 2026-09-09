@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Link from "../models/link.model.js";
+import { io } from "../server.js"; 
 
 export const redirectUser = async (req: Request, res: Response) => {
   try {
@@ -12,6 +13,14 @@ export const redirectUser = async (req: Request, res: Response) => {
     if (!link) {
       return res.status(404).json({ message: "Short URL not found" });
     }
+
+    link.clicks += 1;
+    await link.save();
+
+    io.emit("clickUpdate", { // Emit click update event to all connected clients
+      code: shortUrlCode,
+      clicks: link.clicks,
+    });
 
     return res.redirect(link.url);
   } catch (error) {
