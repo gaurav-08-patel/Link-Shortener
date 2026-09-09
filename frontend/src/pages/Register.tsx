@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 type RegisterFormValues = {
   username: string;
@@ -15,13 +16,48 @@ const Register = () => {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors, isSubmitting },
-  } = useForm<RegisterFormValues>({
-    mode: "onTouched",
-  });
+  } = useForm<RegisterFormValues>({});
 
-  const onSubmit = (data: RegisterFormValues) => {
-    console.log(data);
+  const backendUrl = import.meta.env.VITE_BACKEND_URL?.trim() ?? "";
+
+  const onSubmit = async (data: RegisterFormValues) => {
+    if (!backendUrl) {
+      toast.error("Backend URL is not configured.");
+      return;
+    }
+
+    try {
+      const response = await fetch(`${backendUrl}/api/auth/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: data.username,
+          email: data.email,
+          password: data.password,
+        }),
+      });
+
+      const payload = (await response.json().catch(() => null)) as {
+        message?: string;
+      } | null;
+
+      if (!response.ok) {
+        toast.error(payload?.message || "Registration failed. Please try again.");
+        return;
+      }
+
+      reset();
+      toast.success(
+        payload?.message || "User registered successfully. You can log in now."
+      );
+    } catch (error) {
+      console.log("Error during registration", error);  
+      toast.error("Unable to reach the backend. Please try again.");
+    }
   };
 
   const passwordValue = watch("password");
