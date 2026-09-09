@@ -1,8 +1,9 @@
 import express from "express";
-import { shortenLink } from "../controllers/link.controller.js";
+import { getLinksByUserId, shortenLink } from "../controllers/link.controller.js";
 
 const router = express.Router();
 
 router.post("/shorten",shortenLink);
+router.get("/:userId", getLinksByUserId);
 
 export default router;
