@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
 type RegisterFormValues = {
@@ -46,16 +47,18 @@ const Register = () => {
       } | null;
 
       if (!response.ok) {
-        toast.error(payload?.message || "Registration failed. Please try again.");
+        toast.error(
+          payload?.message || "Registration failed. Please try again.",
+        );
         return;
       }
 
       reset();
       toast.success(
-        payload?.message || "User registered successfully. You can log in now."
+        payload?.message || "User registered successfully. You can log in now.",
       );
     } catch (error) {
-      console.log("Error during registration", error);  
+      console.log("Error during registration", error);
       toast.error("Unable to reach the backend. Please try again.");
     }
   };
@@ -230,6 +233,16 @@ const Register = () => {
                 Create account
               </button>
             </form>
+
+            <p className="mt-6 text-center text-sm text-slate-500">
+              Already have an account?{" "}
+              <Link
+                to="/login"
+                className="font-semibold text-slate-950 underline-offset-4 hover:underline"
+              >
+                Login
+              </Link>
+            </p>
           </div>
         </div>
       </div>
