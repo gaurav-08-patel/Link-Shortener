@@ -2,14 +2,16 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import { createServer } from "http";
+import cors from "cors";
 import { Server } from "socket.io";
 
 dotenv.config({ quiet: true });
 
 const app = express();
 const httpServer = createServer(app); // NEW: wrap Express in HTTP server
+const frontendOrigin = process.env.FRONTEND_URL || "http://localhost:5173";
 export const io = new Server(httpServer, {
-  cors: { origin: "*" }, // allow frontend connections
+  cors: { origin: frontendOrigin },
 });
 
 mongoose
@@ -19,6 +21,11 @@ mongoose
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(
+  cors({
+    origin: frontendOrigin,
+  }),
+);
 
 import authRoutes from "./routes/auth.routes.js";
 import linkRoutes from "./routes/link.routes.js";
