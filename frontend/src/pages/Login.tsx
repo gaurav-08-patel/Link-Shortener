@@ -1,6 +1,8 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { AuthContext } from "../context/AuthContext";
 
 type LoginFormValues = {
   usernameOrEmail: string;
@@ -11,6 +13,7 @@ const fieldBaseClasses =
   "mt-2 w-full rounded-xl border px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:ring-4 focus:ring-slate-200";
 
 const Login = () => {
+  const { setAuthData } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -40,11 +43,17 @@ const Login = () => {
 
       const payload = (await response.json().catch(() => null)) as {
         message?: string;
+        token?: string;
+        user?: { id: string; username: string; email: string };
       } | null;
 
       if (!response.ok) {
         toast.error(payload?.message || "Login failed. Please try again.");
         return;
+      }
+
+      if (payload?.token && payload.user) {
+        setAuthData(payload.user, payload.token);
       }
 
       reset();
