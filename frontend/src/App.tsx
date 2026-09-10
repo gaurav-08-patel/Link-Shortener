@@ -1,7 +1,9 @@
 import { Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import MyLinks from "./pages/MyLinks.tsx";
 
 function App() {
   return (
@@ -15,11 +17,12 @@ function App() {
             background: "#0f172a",
             color: "#f8fafc",
           },
-          position: "top-center"
+          position: "top-center",
         }}
       />
       <Routes>
-        <Route path="/" element={<div>Home</div>} />
+        <Route path="/" element={<Home />} />
+        <Route path="/my-links" element={<MyLinks />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
       </Routes>
