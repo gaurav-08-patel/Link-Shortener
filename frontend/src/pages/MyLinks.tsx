@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { AuthContext } from "../context/AuthContext";
+import { socket } from "../socket";
 
 type LinkItem = {
   _id: string;
@@ -10,6 +11,11 @@ type LinkItem = {
   clicks: number;
   createdAt?: string;
 };
+
+interface ClickUpdate {
+  code: string;
+  clicks: number;
+}
 
 const MyLinks = () => {
   const { user, isAuthenticated, clearAuthData } = useContext(AuthContext);
@@ -30,6 +36,27 @@ const MyLinks = () => {
     navigate("/login");
     toast.success("Logged out successfully");
   };
+
+  //listen for click updates from the server
+  useEffect(() => {
+    const handleClickUpdate = (update: ClickUpdate) => {
+      setLinks((prevLinks) =>
+        prevLinks.map((link) =>
+          link.shortUrl.endsWith(update.code)
+            ? { ...link, clicks: update.clicks }
+            : link,
+        ),
+      );
+    };
+
+    // Subscribe to the "clickUpdate" event
+    socket.on("clickUpdate", handleClickUpdate);
+
+    // Cleanup on unmount
+    return () => {
+      socket.off("clickUpdate");
+    };
+  }, []);
 
   useEffect(() => {
     const loadLinks = async () => {
