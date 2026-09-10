@@ -12,49 +12,23 @@ type LinkItem = {
 };
 
 const MyLinks = () => {
-  const { user, isAuthenticated, clearAuthData } =
-    useContext(AuthContext);
+  const { user, isAuthenticated, clearAuthData } = useContext(AuthContext);
   const [links, setLinks] = useState<LinkItem[]>([]);
   const [loadingLinks, setLoadingLinks] = useState(true);
+  const [logoutModalOpen, setLogoutModalOpen] = useState(false);
   const navigate = useNavigate();
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL?.trim() ?? "";
 
   const openLogoutToast = () => {
-    toast.custom(
-      (t) => (
-        <div
-          className={`pointer-events-auto w-[320px] rounded-2xl border border-slate-200 bg-white p-4 shadow-[0_20px_60px_rgba(15,23,42,0.18)] transition-all duration-300 ${t.visible ? "translate-y-0 scale-100 opacity-100" : "translate-y-2 scale-95 opacity-0"}`}
-        >
-          <p className="text-sm font-semibold text-slate-950">Log out?</p>
-          <p className="mt-1 text-sm leading-6 text-slate-500">
-            Are you sure you want to log out from your account?
-          </p>
-          <div className="mt-4 flex items-center justify-end gap-2">
-            <button
-              type="button"
-              onClick={() => toast.dismiss(t.id)}
-              className="rounded-xl border border-slate-200 px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
-            >
-              Cancel
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                clearAuthData();
-                toast.dismiss(t.id);
-                navigate("/login");
-                toast.success("Logged out successfully");
-              }}
-              className="rounded-xl bg-rose-600 px-3 py-2 text-sm font-semibold text-white transition hover:bg-rose-500"
-            >
-              Logout
-            </button>
-          </div>
-        </div>
-      ),
-      { duration: Infinity },
-    );
+    setLogoutModalOpen(true);
+  };
+
+  const confirmLogout = () => {
+    clearAuthData();
+    setLogoutModalOpen(false);
+    navigate("/login");
+    toast.success("Logged out successfully");
   };
 
   useEffect(() => {
@@ -88,9 +62,49 @@ const MyLinks = () => {
     loadLinks();
   }, [backendUrl, isAuthenticated, user?.id]);
 
-
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#f8fafc,_#e2e8f0_55%,_#cbd5e1)] px-4 py-6 text-slate-900 sm:px-6 lg:px-8">
+      {logoutModalOpen ? (
+        <div
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-950/50 px-4 backdrop-blur-[2px] animate-[modalFade_0.22s_ease-out_forwards]"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="logout-dialog-title"
+          onClick={() => setLogoutModalOpen(false)}
+        >
+          <div
+            className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_30px_90px_rgba(15,23,42,0.35)] animate-[modalZoom_0.22s_cubic-bezier(0.16,1,0.3,1)_forwards]"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <p
+              id="logout-dialog-title"
+              className="text-sm font-semibold text-slate-950"
+            >
+              Log out?
+            </p>
+            <p className="mt-1 text-sm leading-6 text-slate-500">
+              Are you sure you want to log out from your account?
+            </p>
+            <div className="mt-4 flex items-center justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => setLogoutModalOpen(false)}
+                className="rounded-xl border border-slate-200 px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={confirmLogout}
+                className="rounded-xl bg-rose-600 px-3 py-2 text-sm font-semibold text-white transition hover:bg-rose-500"
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
       <div className="mx-auto max-w-6xl">
         <header className="mb-8 flex items-center justify-between rounded-3xl border border-white/70 bg-white/80 px-5 py-4 shadow-[0_16px_50px_rgba(15,23,42,0.08)] backdrop-blur">
           <Link to="/" className="flex items-center gap-3">
@@ -167,7 +181,10 @@ const MyLinks = () => {
                     className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_10px_30px_rgba(15,23,42,0.05)]"
                   >
                     <p className="text-sm text-slate-950 break-all">
-                      <span className="font-bold text-slate-900">OriginalUrl :</span> {link.url}
+                      <span className="font-bold text-slate-900">
+                        OriginalUrl :
+                      </span>{" "}
+                      {link.url}
                     </p>
                     <a
                       href={link.shortUrl}
