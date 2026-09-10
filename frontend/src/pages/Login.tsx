@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { AuthContext } from "../context/AuthContext";
@@ -20,6 +20,7 @@ const Login = () => {
     reset,
     formState: { errors, isSubmitting },
   } = useForm<LoginFormValues>({});
+  let navigate = useNavigate();
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL?.trim() ?? "";
 
@@ -58,6 +59,7 @@ const Login = () => {
 
       reset();
       toast.success(payload?.message || "Logged in successfully.");
+      navigate("/");
     } catch (error) {
       console.log("Error during login", error);
       toast.error("Unable to reach the backend. Please try again.");
