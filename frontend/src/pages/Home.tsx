@@ -113,7 +113,7 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#f8fafc,_#e2e8f0_55%,_#cbd5e1)] px-4 py-6 text-slate-900 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#f8fafc,_#e2e8f0_55%,_#cbd5e1)] px-3 py-4 text-slate-900 sm:px-6 sm:py-6 lg:px-8">
       {logoutModalOpen ? (
         <div
           className="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-950/50 px-4 backdrop-blur-[2px] animate-[modalFade_0.22s_ease-out_forwards]"
@@ -156,22 +156,22 @@ const Home = () => {
       ) : null}
 
       <div className="mx-auto max-w-6xl">
-        <header className="mb-8 flex items-center justify-between rounded-3xl border border-white/70 bg-white/80 px-5 py-4 shadow-[0_16px_50px_rgba(15,23,42,0.08)] backdrop-blur">
-          <Link to="/" className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-950 text-sm font-bold text-white shadow-lg shadow-slate-950/20">
+        <header className="relative z-20 mb-8 flex items-center justify-between gap-3 rounded-3xl border border-white/70 bg-white/80 px-3 py-3 shadow-[0_16px_50px_rgba(15,23,42,0.08)] backdrop-blur sm:px-5 sm:py-4">
+          <Link to="/" className="flex min-w-0 items-center gap-2 sm:gap-3">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-950 text-[11px] font-bold text-white shadow-lg shadow-slate-950/20 sm:h-11 sm:w-11 sm:text-sm">
               LS
             </div>
-            <div>
-              <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-slate-500">
+            <div className="min-w-0">
+              <p className="text-[9px] font-medium uppercase tracking-[0.2em] text-slate-500 sm:text-[11px] sm:tracking-[0.3em]">
                 Link Shortener
               </p>
-              <h1 className="text-lg font-semibold tracking-tight text-slate-950">
+              <h1 className="truncate text-sm font-semibold tracking-tight text-slate-950 sm:text-lg">
                 Link Shortener
               </h1>
             </div>
           </Link>
 
-          <div ref={menuRef} className="relative">
+          <div ref={menuRef} className="relative z-30">
             {isLoading ? null : isAuthenticated && user ? (
               <>
                 <button
@@ -184,7 +184,7 @@ const Home = () => {
                 </button>
 
                 {menuOpen ? (
-                  <div className="absolute right-0 top-14 z-20 w-56 overflow-hidden rounded-2xl border border-slate-200 bg-white p-2 shadow-[0_24px_60px_rgba(15,23,42,0.16)]">
+                  <div className="absolute right-0 top-14 z-[60] w-56 overflow-hidden rounded-2xl border border-slate-200 bg-white p-2 shadow-[0_24px_60px_rgba(15,23,42,0.16)]">
                     <div className="px-3 py-2">
                       <p className="text-sm font-semibold text-slate-950">
                         {user.username}
@@ -209,16 +209,16 @@ const Home = () => {
                 ) : null}
               </>
             ) : (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5 sm:gap-2">
                 <Link
                   to="/login"
-                  className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition hover:border-slate-300 hover:bg-slate-50"
+                  className="rounded-xl border border-slate-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-slate-800 transition hover:border-slate-300 hover:bg-slate-50 sm:px-4 sm:py-2 sm:text-sm"
                 >
                   Login
                 </Link>
                 <Link
                   to="/register"
-                  className="rounded-xl bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+                  className="rounded-xl bg-slate-950 px-2.5 py-1.5 text-[11px] font-semibold text-white transition hover:bg-slate-800 sm:px-4 sm:py-2 sm:text-sm"
                 >
                   Register
                 </Link>
@@ -228,33 +228,33 @@ const Home = () => {
         </header>
 
         {!isAuthenticated ? (
-          <div className="mb-8 rounded-2xl border border-slate-200 bg-white/80 px-5 py-4 text-sm text-slate-600 shadow-[0_16px_50px_rgba(15,23,42,0.06)] backdrop-blur">
+          <div className="mb-4 rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 text-xs text-slate-600 shadow-[0_16px_50px_rgba(15,23,42,0.06)] backdrop-blur sm:mb-8 sm:px-5 sm:py-4 sm:text-sm">
             Login to see and manage all your links and see clicks count.
           </div>
         ) : null}
 
-        <section className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
-          <div className="rounded-3xl border border-white/70 bg-white/80 p-8 shadow-[0_24px_80px_rgba(15,23,42,0.12)] backdrop-blur sm:p-10">
-            <p className="text-sm font-medium uppercase tracking-[0.25em] text-slate-500">
+        <section className="grid gap-4 sm:gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+          <div className="rounded-3xl border border-white/70 bg-white/80 p-4 shadow-[0_24px_80px_rgba(15,23,42,0.12)] backdrop-blur sm:p-8 sm:p-10">
+            <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-slate-500 sm:text-sm sm:tracking-[0.25em]">
               Shorten
             </p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight text-slate-950">
+            <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950 sm:mt-3 sm:text-3xl">
               Turn long links into something clean.
             </h2>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-500">
+            <p className="mt-2 max-w-2xl text-xs leading-5 text-slate-500 sm:mt-3 sm:text-sm sm:leading-6">
               Paste an original URL below and generate a short shareable link.
               If you are signed in, it will be stored with your account so you
               can track it later.
             </p>
 
             <form
-              className="mt-8 space-y-5"
+              className="mt-5 space-y-4 sm:mt-8 sm:space-y-5"
               onSubmit={handleSubmit(onSubmit)}
               noValidate
             >
               <div>
                 <label
-                  className="text-sm font-medium text-slate-700"
+                  className="text-xs font-medium text-slate-700 sm:text-sm"
                   htmlFor="originalUrl"
                 >
                   Original link
@@ -265,7 +265,7 @@ const Home = () => {
                   placeholder="https://example.com/your-long-link"
                   autoComplete="off"
                   aria-invalid={errors.originalUrl ? "true" : "false"}
-                  className={`${fieldBaseClasses} ${errors.originalUrl ? "border-rose-500 bg-rose-50 focus:ring-rose-100" : "border-slate-200 bg-white focus:border-slate-400"}`}
+                  className={`${fieldBaseClasses} ${errors.originalUrl ? "border-rose-500 bg-rose-50 focus:ring-rose-100" : "border-slate-200 bg-white focus:border-slate-400"} text-xs sm:text-sm`}
                   {...register("originalUrl", {
                     required: "Original link is required",
                     pattern: {
@@ -286,15 +286,15 @@ const Home = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full cursor-pointer rounded-xl bg-slate-950 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
+                className="w-full cursor-pointer rounded-xl bg-slate-950 px-4 py-2.5 text-xs font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60 sm:px-4 sm:py-3 sm:text-sm"
               >
                 Shorten link
               </button>
             </form>
 
             {shortUrl ? (
-              <div className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700">
+              <div className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50 p-3 sm:mt-6 sm:p-4">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-emerald-700 sm:text-xs">
                   Your shortened URL
                 </p>
                 <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -302,14 +302,14 @@ const Home = () => {
                     href={shortUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="break-all text-sm font-medium text-slate-950 underline-offset-4 hover:underline"
+                    className="break-all text-xs font-medium text-slate-950 underline-offset-4 hover:underline sm:text-sm"
                   >
                     {shortUrl}
                   </a>
                   <button
                     type="button"
                     onClick={copyShortUrl}
-                    className="cursor-pointer rounded-xl bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-500"
+                    className="cursor-pointer rounded-xl bg-emerald-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-emerald-500 sm:px-4 sm:py-2 sm:text-sm"
                   >
                     Copy
                   </button>
@@ -318,26 +318,26 @@ const Home = () => {
             ) : null}
           </div>
 
-          <aside className="rounded-3xl border border-white/70 bg-slate-950 p-8 text-white shadow-[0_24px_80px_rgba(15,23,42,0.18)] sm:p-10">
-            <p className="text-sm uppercase tracking-[0.35em] text-slate-400">
+          <aside className="rounded-3xl border border-white/70 bg-slate-950 p-4 text-white shadow-[0_24px_80px_rgba(15,23,42,0.18)] sm:p-8 sm:p-10">
+            <p className="text-[10px] uppercase tracking-[0.25em] text-slate-400 sm:text-sm sm:tracking-[0.35em]">
               Why use it
             </p>
-            <h3 className="mt-4 text-2xl font-semibold tracking-tight">
+            <h3 className="mt-3 text-xl font-semibold tracking-tight sm:mt-4 sm:text-2xl">
               Fast, simple, and account-aware.
             </h3>
-            <p className="mt-4 text-sm leading-6 text-slate-300">
+            <p className="mt-3 text-xs leading-5 text-slate-300 sm:mt-4 sm:text-sm sm:leading-6">
               Keep your links organized, see click counts, and revisit them
               anytime from your MyLinks page.
             </p>
 
-            <div className="mt-8 space-y-4 text-sm text-slate-300">
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <div className="mt-5 space-y-3 text-xs text-slate-300 sm:mt-8 sm:space-y-4 sm:text-sm">
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-3 sm:p-4">
                 Save links under your account when you are signed in.
               </div>
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-3 sm:p-4">
                 Review and manage all of your links from one place.
               </div>
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-3 sm:p-4">
                 Track how many times each link has been opened.
               </div>
             </div>
