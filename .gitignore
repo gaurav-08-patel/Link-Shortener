@@ -8,7 +8,6 @@ frontend/build/
 
 # Environment files
 .env
-.env.*
 
 # Logs
 *.log
