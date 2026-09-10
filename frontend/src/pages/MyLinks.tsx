@@ -54,7 +54,7 @@ const MyLinks = () => {
 
     // Cleanup on unmount
     return () => {
-      socket.off("clickUpdate");
+      socket.off("clickUpdate", handleClickUpdate);
     };
   }, []);
 
@@ -78,7 +78,13 @@ const MyLinks = () => {
           return;
         }
 
-        setLinks(payload?.links ?? []);
+        const sortedLinks = [...(payload?.links ?? [])].sort(
+          (a, b) =>
+            new Date(b.createdAt ?? 0).getTime() -
+            new Date(a.createdAt ?? 0).getTime(),
+        );
+
+        setLinks(sortedLinks);
       } catch {
         toast.error("Unable to load your links.");
       } finally {
