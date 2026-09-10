@@ -96,7 +96,7 @@ const MyLinks = () => {
   }, [backendUrl, isAuthenticated, user?.id]);
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#f8fafc,_#e2e8f0_55%,_#cbd5e1)] px-4 py-6 text-slate-900 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#f8fafc,_#e2e8f0_55%,_#cbd5e1)] px-3 py-4 text-slate-900 sm:px-6 sm:py-6 lg:px-8">
       {logoutModalOpen ? (
         <div
           className="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-950/50 px-4 backdrop-blur-[2px] animate-[modalFade_0.22s_ease-out_forwards]"
@@ -139,25 +139,25 @@ const MyLinks = () => {
       ) : null}
 
       <div className="mx-auto max-w-6xl">
-        <header className="mb-8 flex items-center justify-between rounded-3xl border border-white/70 bg-white/80 px-5 py-4 shadow-[0_16px_50px_rgba(15,23,42,0.08)] backdrop-blur">
-          <Link to="/" className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-950 text-sm font-bold text-white shadow-lg shadow-slate-950/20">
+        <header className="mb-4 flex items-center justify-between gap-3 rounded-3xl border border-white/70 bg-white/80 px-3 py-3 shadow-[0_16px_50px_rgba(15,23,42,0.08)] backdrop-blur sm:mb-8 sm:px-5 sm:py-4">
+          <Link to="/" className="flex min-w-0 items-center gap-2 sm:gap-3">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-950 text-[11px] font-bold text-white shadow-lg shadow-slate-950/20 sm:h-11 sm:w-11 sm:text-sm">
               LS
             </div>
-            <div>
-              <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-slate-500">
+            <div className="min-w-0">
+              <p className="text-[9px] font-medium uppercase tracking-[0.2em] text-slate-500 sm:text-[11px] sm:tracking-[0.3em]">
                 Link Shortener
               </p>
-              <h1 className="text-lg font-semibold tracking-tight text-slate-950">
+              <h1 className="truncate text-sm font-semibold tracking-tight text-slate-950 sm:text-lg">
                 My Links
               </h1>
             </div>
           </Link>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             <Link
               to="/"
-              className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition hover:border-slate-300 hover:bg-slate-50"
+              className="rounded-xl border border-slate-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-slate-800 transition hover:border-slate-300 hover:bg-slate-50 sm:px-4 sm:py-2 sm:text-sm"
             >
               Home
             </Link>
@@ -165,14 +165,14 @@ const MyLinks = () => {
               <button
                 type="button"
                 onClick={openLogoutToast}
-                className="rounded-xl bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+                className="rounded-xl bg-slate-950 px-2.5 py-1.5 text-[11px] font-semibold text-white transition hover:bg-slate-800 sm:px-4 sm:py-2 sm:text-sm"
               >
                 Logout
               </button>
             ) : (
               <Link
                 to="/login"
-                className="rounded-xl bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+                className="rounded-xl bg-slate-950 px-2.5 py-1.5 text-[11px] font-semibold text-white transition hover:bg-slate-800 sm:px-4 sm:py-2 sm:text-sm"
               >
                 Login
               </Link>
@@ -181,39 +181,39 @@ const MyLinks = () => {
         </header>
 
         {!isAuthenticated ? (
-          <div className="rounded-2xl border border-slate-200 bg-white/80 px-5 py-4 text-sm text-slate-600 shadow-[0_16px_50px_rgba(15,23,42,0.06)] backdrop-blur">
+          <div className="mb-4 rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 text-xs text-slate-600 shadow-[0_16px_50px_rgba(15,23,42,0.06)] backdrop-blur sm:mb-8 sm:px-5 sm:py-4 sm:text-sm">
             Login to see and manage all your links and see clicks count.
           </div>
         ) : (
-          <section className="rounded-3xl border border-white/70 bg-white/80 p-8 shadow-[0_24px_80px_rgba(15,23,42,0.12)] backdrop-blur sm:p-10">
-            <p className="text-sm font-medium uppercase tracking-[0.25em] text-slate-500">
+          <section className="rounded-3xl border border-white/70 bg-white/80 p-4 shadow-[0_24px_80px_rgba(15,23,42,0.12)] backdrop-blur sm:p-8 sm:p-10">
+            <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-slate-500 sm:text-sm sm:tracking-[0.25em]">
               Your links
             </p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight text-slate-950">
+            <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950 sm:mt-3 sm:text-3xl">
               Manage everything in one place
             </h2>
-            <p className="mt-3 text-sm leading-6 text-slate-500">
+            <p className="mt-2 text-xs leading-5 text-slate-500 sm:mt-3 sm:text-sm sm:leading-6">
               View the original link, copied short URL, and click count for each
               saved item.
             </p>
 
             {loadingLinks ? (
-              <div className="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-6 text-sm text-slate-500">
+              <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-xs text-slate-500 sm:mt-8 sm:p-6 sm:text-sm">
                 Loading your links...
               </div>
             ) : links.length === 0 ? (
-              <div className="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-6 text-sm text-slate-500">
+              <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-xs text-slate-500 sm:mt-8 sm:p-6 sm:text-sm">
                 No links found yet. Create your first shortened link from the
                 Home page.
               </div>
             ) : (
-              <div className="mt-8 grid gap-4">
+              <div className="mt-4 grid gap-3 sm:mt-8 sm:gap-4">
                 {links.map((link) => (
                   <div
                     key={link._id}
-                    className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_10px_30px_rgba(15,23,42,0.05)]"
+                    className="rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_10px_30px_rgba(15,23,42,0.05)] sm:p-5"
                   >
-                    <p className="text-sm text-slate-950 break-all">
+                    <p className="break-all text-xs text-slate-950 sm:text-sm">
                       <span className="font-bold text-slate-900">
                         OriginalUrl :
                       </span>{" "}
@@ -223,12 +223,12 @@ const MyLinks = () => {
                       href={link.shortUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="mt-2 inline-block break-all text-sm font-medium text-slate-700 underline-offset-4 hover:underline"
+                      className="mt-2 inline-block break-all text-xs font-medium text-slate-700 underline-offset-4 hover:underline sm:text-sm"
                     >
                       {link.shortUrl}
                     </a>
-                    <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-slate-500">
-                      <span className="rounded-full bg-slate-100 px-3 py-1 font-medium text-slate-700">
+                    <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px] text-slate-500 sm:mt-4 sm:gap-3 sm:text-sm">
+                      <span className="rounded-full bg-slate-100 px-2 py-1 font-medium text-slate-700 sm:px-3">
                         Clicks: {link.clicks}
                       </span>
                       {link.createdAt ? (
