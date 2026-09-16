@@ -1,0 +1,47 @@
+# To re-enable a local MongoDB for development:
+# 1. Uncomment the `mongo` service block below and the `volumes:` section at the end.
+# 2. In `backend/.env`, set `MONGO_DB_URI=mongodb://mongo:27017/linkdb` (or set it inline).
+# 3. Run `docker compose up --build` from the `backend/` folder. The backend will then connect
+#    to the compose-managed Mongo container.
+# Example mongo service (copy into `services:`):
+#   mongo:
+#     image: mongo:6.0
+#     restart: unless-stopped
+#     volumes:
+#       - mongo-data:/data/db
+#     ports:
+#       - "27017:27017"
+# Example volumes section to add at the end:
+# volumes:
+#   mongo-data:
+
+services:
+  backend-1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # Load environment variables from backend/.env (do NOT commit secrets)
+    env_file:
+      - .env
+    expose:
+      - "3000"
+
+  backend-2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # Load environment variables from backend/.env (do NOT commit secrets)
+    env_file:
+      - .env
+    expose:
+      - "3000"
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - backend-1
+      - backend-2
