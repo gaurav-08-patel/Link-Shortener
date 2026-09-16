@@ -1,4 +1,5 @@
 import express from "express";
+import nodeCrypto from "crypto";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import { createServer } from "http";
@@ -6,6 +7,12 @@ import cors from "cors";
 import { Server } from "socket.io";
 
 dotenv.config({ quiet: true });
+
+// Ensure a `crypto` implementation is available on globalThis for
+// libraries (like the MongoDB driver) that may expect it.
+if (!(globalThis as any).crypto) {
+  (globalThis as any).crypto = nodeCrypto;
+}
 
 const app = express();
 const httpServer = createServer(app);
