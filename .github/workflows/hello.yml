@@ -1,4 +1,3 @@
-```yaml
 name: Hello GitHub Actions
 
 on:
@@ -13,4 +12,3 @@ jobs:
     steps:
       - name: Say hello
         run: echo "Hello from GitHub Actions!"
-```
