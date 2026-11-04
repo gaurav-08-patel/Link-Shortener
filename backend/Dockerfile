@@ -1,5 +1,5 @@
-
-FROM node:18-bullseye-slim AS builder
+# Stage 1: Build the application
+FROM node:22-bookworm-slim AS builder
 
 WORKDIR /app
 
@@ -10,24 +10,28 @@ COPY . ./
 RUN npm run build
 
 
-FROM node:18-bullseye-slim AS runner
+# Stage 2: Production image
+FROM node:22-bookworm-slim AS runner
 
 WORKDIR /app
 
 ENV NODE_ENV=production
 
-# Create the non-root application user
+# Create a non-root application user
 RUN addgroup --system app && adduser --system --ingroup app app
 
-# Copy package files with correct ownership
-COPY --chown=app:app package*.json ./
+# Copy package files
+COPY package*.json ./
 
-# Install production dependencies as the app user
-USER app
-RUN npm ci --omit=dev
+# Install production dependencies as root,
+# then give the application user ownership
+RUN npm ci --omit=dev && chown -R app:app /app
 
 # Copy compiled application
 COPY --from=builder --chown=app:app /app/dist ./dist
+
+# Run the application as a non-root user
+USER app
 
 EXPOSE 3000
 
