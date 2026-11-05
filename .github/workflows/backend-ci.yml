@@ -57,4 +57,21 @@ jobs:
         with:
           context: ./backend
           push: true
-          tags: gaurav08patel/link-shortener:v1.3  
+          tags: gaurav08patel/link-shortener:v1.3
+      
+      - name: Configure SSH
+        if: github.event_name == 'push'
+        env:
+          EC2_SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          EC2_KNOWN_HOSTS: ${{ secrets.EC2_KNOWN_HOSTS }}
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+
+          printf '%s\n' "$EC2_SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+
+          printf '%s\n' "$EC2_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+      
+      
