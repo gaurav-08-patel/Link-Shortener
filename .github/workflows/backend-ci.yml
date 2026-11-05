@@ -83,6 +83,43 @@ jobs:
         run: |
           ssh -i ~/.ssh/id_ed25519 \
             -o IdentitiesOnly=yes \
+            -o BatchMode=yes \
             "$EC2_USER@$EC2_HOST" \
             'cd ~/link-shortener-deploy && docker compose pull backend && docker compose up -d --no-deps backend'
+
+
+      - name: Verify backend health
+        if: github.event_name == 'push'
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_USER: ${{ secrets.EC2_USER }}
+        run: |
+          ssh -i ~/.ssh/id_ed25519 \
+            -o IdentitiesOnly=yes \
+            -o BatchMode=yes \
+            "$EC2_USER@$EC2_HOST" '
+              cd ~/link-shortener-deploy || exit 1
+
+              for attempt in $(seq 1 24); do
+                container_id=$(docker compose ps -q backend)
+                status=$(docker inspect --format="{{.State.Health.Status}}" "$container_id" 2>/dev/null || echo "not-found")
+
+                echo "Backend health: $status"
+
+                if [ "$status" = "healthy" ]; then
+                  echo "Backend deployment successful!"
+                  exit 0
+                fi
+
+                if [ "$status" = "unhealthy" ]; then
+                  echo "Backend is unhealthy!"
+                  exit 1
+                fi
+
+                sleep 5
+              done
+
+              echo "Backend did not become healthy within 120 seconds."
+              exit 1
+            '
 
